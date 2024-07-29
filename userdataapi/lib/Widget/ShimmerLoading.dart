@@ -7,7 +7,17 @@ class Shimmerloading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-        child: ListView(),
+        child: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (Context, builder) {
+            return Card(
+              color: Colors.grey,
+              child: Container(
+                height: 100,
+              ),
+            );
+          },
+        ),
         baseColor: Colors.grey.shade300,
         highlightColor: Colors.white);
   }
