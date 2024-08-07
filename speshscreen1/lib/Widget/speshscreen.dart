@@ -38,32 +38,34 @@ class Speshscreen extends StatelessWidget {
 
 //Gif SplashScreen
 
-    // return FlutterSplashScreen.gif(
-    //   gifPath: 'assets/image/assets/image/logo.gif',
-    //   gifHeight: 150,
-    //   gifWidth: 150,
-    //   nextScreen: Screen1(),
-    //   backgroundColor: Colors.white,
-    //   duration: Duration(seconds: 15),
-    // );
+    return FlutterSplashScreen.gif(
+      //useImmersiveMode: true,
+      gifPath:
+          'https://cdn.dribbble.com/users/189524/screenshots/2818547/silhouette-solo-dribbble-03_v4.gif',
+      gifHeight: 150,
+      gifWidth: 150,
+      nextScreen: Screen1(),
+      backgroundColor: Colors.white,
+      duration: Duration(seconds: 15),
+    );
 
 //Scale splashScreen
 
-    return FlutterSplashScreen.scale(
-      gradient: const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.white,
-          Colors.white,
-        ],
-      ),
-      childWidget: ImageNetwork(
-          image: "assets/image/GLogo.gif", height: 200, width: 500),
-      duration: const Duration(milliseconds: 20000),
-      animationDuration: const Duration(milliseconds: 15000),
-      onAnimationEnd: () => debugPrint("On Scale End"),
-      nextScreen: Screen1(),
-    );
+    // return FlutterSplashScreen.scale(
+    //   gradient: const LinearGradient(
+    //     begin: Alignment.topCenter,
+    //     end: Alignment.bottomCenter,
+    //     colors: [
+    //       Colors.white,
+    //       Colors.white,
+    //     ],
+    //   ),
+    //   childWidget: ImageNetwork(
+    //       image: "assets/image/GLogo.gif", height: 200, width: 500),
+    //   duration: const Duration(milliseconds: 20000),
+    //   animationDuration: const Duration(milliseconds: 15000),
+    //   onAnimationEnd: () => debugPrint("On Scale End"),
+    //   nextScreen: Screen1(),
+    // );
   }
 }
