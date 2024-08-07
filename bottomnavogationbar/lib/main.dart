@@ -1,78 +1,69 @@
-// import 'package:flutter/foundation.dart';
+import 'package:bottomnavogationbar/widget_card.dart';
+import 'package:bottomnavogationbar/widget_profile.dart';
+import 'package:bottomnavogationbar/wiget_home.dart';
 import 'package:flutter/material.dart';
 
-class Task {
-  final String task_name;
-  final String description;
-
-  Task(this.task_name, this.description);
-}
-
 void main() {
-  runApp(MaterialApp(
-    title: 'Passing Data',
-    home: TodosScreen(
-      // generate list
-      tasks: List.generate(
-        10,
-        (i) => Task(
-          'Task $i',
-          'Task Description $i',
-        ),
-      ),
-    ),
-  ));
+  runApp(const MainApp());
 }
 
-// Home screen
-class TodosScreen extends StatelessWidget {
-  final List<Task> tasks;
-
-  TodosScreen({Key? key, required this.tasks}) : super(key: key);
+class MainApp extends StatefulWidget {
+  const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('GeeksForGeeks'),
-        backgroundColor: Colors.green,
-      ),
-      // List builder
-      body: ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(tasks[index].task_name),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailScreen(task: tasks[index]),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  late int currentIndex;
+
+  void initState() {
+    // super.initState();
+    currentIndex = 0;
   }
-}
 
-// detail screen
-class DetailScreen extends StatelessWidget {
-  final Task task;
-  DetailScreen({Key? key, required this.task}) : super(key: key);
+  Widget? GetCurentWidget() {
+    switch (this.currentIndex) {
+      case 0:
+        return MyWidget_home();
+
+      case 1:
+        return MyWidget_card();
+
+      case 2:
+        return MyWidget_profile();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(task.task_name),
-        backgroundColor: Colors.green,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Text(task.description),
+    return MaterialApp(
+      home: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.yellow,
+            currentIndex: this.currentIndex,
+            onTap: (newindex) {
+              setState(() {
+                this.currentIndex = newindex;
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.blueGrey,
+                  label: "Home",
+                  icon: Icon(Icons.home)),
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.blueGrey,
+                  label: "Card",
+                  icon: Icon(Icons.shopping_cart_outlined)),
+              BottomNavigationBarItem(
+                  backgroundColor: Colors.blueGrey,
+                  label: "profile",
+                  icon: Icon(Icons.supervised_user_circle_outlined))
+            ]),
+        body: Center(
+          child: GetCurentWidget(),
+        ),
       ),
     );
   }
