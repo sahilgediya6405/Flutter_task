@@ -51,63 +51,65 @@ class _MyDrawerAppState extends State<MyDrawerApp> {
       ),
       body: CurrentWidget(),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero, // Added to remove default padding
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text("User123"),
-              accountEmail: Text("user123@gmail.com"),
-              currentAccountPicture: CircleAvatar(child: Text("U")),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  drawerindex = 0;
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.share),
-              title: Text("Share"),
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  drawerindex = 1;
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.folder),
-              title: Text("My File"),
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  drawerindex = 2;
-                });
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Divider(
-                height: 1,
-                thickness: 1,
-                color: Colors.grey,
+        child: ListTileTheme(
+          selectedColor: Colors.blue,
+          child: ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text("User123"),
+                accountEmail: Text("user123@gmail.com"),
+                currentAccountPicture: CircleAvatar(child: Text("U")),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Settings & Account"),
-              onTap: () {
-                Navigator.pop(context);
-                setState(() {
-                  drawerindex = 3;
-                });
-              },
-            ),
-          ],
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text("Home"),
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    drawerindex = 0;
+                  });
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.share),
+                title: Text("Share"),
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    drawerindex = 1;
+                  });
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.folder),
+                title: Text("My File"),
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    drawerindex = 2;
+                  });
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text("Settings & Account"),
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() {
+                    drawerindex = 3;
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
