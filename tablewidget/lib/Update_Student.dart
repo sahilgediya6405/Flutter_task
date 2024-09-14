@@ -84,13 +84,18 @@ class _UpdateStudentState extends State<UpdateStudent> {
                     child: Text('Back')),
                 ElevatedButton(
                     onPressed: () async {
+                      final name = nameController.text;
+                      final city = cityController.text;
+                      final mark = int.tryParse(markController.text);
+
+                      print("Update Student");
+
                       DbUtils dbUtils = await DbUtils.singlrTonClass();
-                      dbUtils.dataUpdate(
-                          context,
-                          updatestudent.id,
-                          updatestudent.name,
-                          updatestudent.mark,
-                          updatestudent.city);
+
+                      dbUtils.dataUpdate(context, updatestudent.id, name,
+                          int.parse(mark.toString()), city);
+                      setState(() {});
+                      Navigator.pop(context);
                     },
                     child: Text('Update'))
               ],

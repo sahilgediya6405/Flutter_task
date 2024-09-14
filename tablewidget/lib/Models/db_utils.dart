@@ -75,14 +75,24 @@ class DbUtils {
       BuildContext context, int id, String name, int mark, String city) async {
     Map<String, dynamic> newValues = {'name': name, 'city': city, 'mark': mark};
 
-    await CurrentDB.update('student', newValues,
+    int result = await CurrentDB.update('student', newValues,
         where: 'id=?', whereArgs: [id]);
 
-    Fluttertoast.showToast(
-      msg: "Update Student Details",
-      backgroundColor: Colors.blueGrey,
-      gravity: ToastGravity.BOTTOM,
-      textColor: Colors.black,
-    );
+    if (result == 0) {
+      // If no rows were updated, notify the user.
+      Fluttertoast.showToast(
+        msg: "Update Failed",
+        backgroundColor: Colors.red,
+        gravity: ToastGravity.BOTTOM,
+        textColor: Colors.white,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "Student Details Updated",
+        backgroundColor: Colors.blueGrey,
+        gravity: ToastGravity.BOTTOM,
+        textColor: Colors.black,
+      );
+    }
   }
 }
