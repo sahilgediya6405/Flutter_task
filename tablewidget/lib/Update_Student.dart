@@ -78,26 +78,39 @@ class _UpdateStudentState extends State<UpdateStudent> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text('Back')),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Back',
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 2, 139, 252)),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blue[50])),
+                ),
                 ElevatedButton(
-                    onPressed: () async {
-                      final name = nameController.text;
-                      final city = cityController.text;
-                      final mark = int.tryParse(markController.text);
+                  onPressed: () async {
+                    final name = nameController.text;
+                    final city = cityController.text;
+                    final mark = int.tryParse(markController.text);
 
-                      print("Update Student");
+                    DbUtils dbUtils = await DbUtils.singlrTonClass();
 
-                      DbUtils dbUtils = await DbUtils.singlrTonClass();
-
-                      dbUtils.dataUpdate(context, updatestudent.id, name,
-                          int.parse(mark.toString()), city);
-                      setState(() {});
-                      Navigator.pop(context);
-                    },
-                    child: Text('Update'))
+                    dbUtils.dataUpdate(context, updatestudent.id, name,
+                        int.parse(mark.toString()), city);
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Update',
+                    style: TextStyle(color: Color.fromARGB(255, 1, 140, 255)),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blue[50])),
+                )
               ],
             )
           ],

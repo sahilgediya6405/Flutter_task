@@ -59,22 +59,31 @@ class _Add_StudentState extends State<Add_Student> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("Back"),
+                child: Text(
+                  "Back",
+                  style:
+                      TextStyle(color: const Color.fromARGB(255, 4, 136, 243)),
+                ),
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Colors.blue[200])),
+                        MaterialStateProperty.all(Colors.blue[50])),
               ),
               ElevatedButton(
-                onPressed: () async {
-                  DbUtils dbUtils = await DbUtils.singlrTonClass();
-                  dbUtils.addData(context, nameController.text,
-                      int.parse(markController.text), cityController.text);
-                },
-                child: Text("Save"),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.blue[200])),
-              )
+                  onPressed: () async {
+                    DbUtils dbUtils = await DbUtils.singlrTonClass();
+                    dbUtils.addData(context, nameController.text,
+                        int.parse(markController.text), cityController.text);
+
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 6, 134, 240)),
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blue[50]))),
             ],
           )
         ],

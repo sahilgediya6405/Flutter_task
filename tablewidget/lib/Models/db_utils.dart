@@ -29,17 +29,18 @@ class DbUtils {
 
 // getdata from database and  sort by mark
 
-  Future<List<Student>> getdata({bool low = true}) async {
-    String quary;
-    if (low == true) {
-      quary = ("SELECT * FROM student ORDER BY mark  ASC");
-    } else {
-      quary = ("SELECT * FROM student ORDER BY mark DESC");
-    }
+  // Future<List<Student>> getdata({bool low = true}) async {
+  //   String quary;
+  //   if (low == true) {
+  //     quary = ("SELECT * FROM student ORDER BY mark  ASC");
+  //   } else {
+  //     quary = ("SELECT * FROM student ORDER BY mark DESC");
+  //   }
 
 // Read Data
-
-    List<Map<String, dynamic>> studentMapList = await CurrentDB.rawQuery(quary);
+  Future<List<Student>> getdata({bool low = true}) async {
+    List<Map<String, dynamic>> studentMapList =
+        await CurrentDB.rawQuery('SELECT * FROM student');
 
     List<Student> listStudent = List.generate(studentMapList.length, (i) {
       return Student.FromMap(studentMapList[i]);
@@ -67,6 +68,13 @@ class DbUtils {
 
   Future<void> deleteData(int id) async {
     await CurrentDB.delete("student", where: 'id=?', whereArgs: [id]);
+
+    Fluttertoast.showToast(
+      msg: "Student Details Deleted",
+      backgroundColor: Colors.blueGrey,
+      gravity: ToastGravity.BOTTOM,
+      textColor: Colors.black,
+    );
   }
 
   // Update Data
@@ -79,7 +87,6 @@ class DbUtils {
         where: 'id=?', whereArgs: [id]);
 
     if (result == 0) {
-      // If no rows were updated, notify the user.
       Fluttertoast.showToast(
         msg: "Update Failed",
         backgroundColor: Colors.red,
