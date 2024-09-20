@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tablewidget/Models/db_utils.dart';
-import 'package:tablewidget/Models/model_Student.dart';
+import 'package:CRUD/Models/db_utils.dart';
+import 'package:CRUD/Models/model_Student.dart';
 
 class UpdateStudent extends StatefulWidget {
   final Student updatestudent;

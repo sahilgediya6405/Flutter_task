@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
-import 'package:tablewidget/Add_Student.dart';
-import 'package:tablewidget/Models/db_utils.dart';
-import 'package:tablewidget/Models/model_Student.dart';
-import 'package:tablewidget/Show_Details.dart';
-import 'package:tablewidget/Update_Student.dart';
+import 'package:CRUD/Add_Student.dart';
+import 'package:CRUD/Models/db_utils.dart';
+import 'package:CRUD/Models/model_Student.dart';
+import 'package:CRUD/Show_Details.dart';
+import 'package:CRUD/Update_Student.dart';
 
 class StudentDetails extends StatefulWidget {
   const StudentDetails({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tablewidget/Models/db_utils.dart';
+import 'package:CRUD/Models/db_utils.dart';
 
 class Add_Student extends StatefulWidget {
   const Add_Student({super.key});

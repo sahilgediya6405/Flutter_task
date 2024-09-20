@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tablewidget/Models/db_utils.dart';
-import 'package:tablewidget/Models/model_Student.dart';
-import 'package:tablewidget/Update_Student.dart';
+import 'package:CRUD/Models/db_utils.dart';
+import 'package:CRUD/Models/model_Student.dart';
+import 'package:CRUD/Update_Student.dart';
 
 class ShowDetails extends StatefulWidget {
   final Student showDetails;

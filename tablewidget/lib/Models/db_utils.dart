@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:tablewidget/Models/model_Student.dart';
+import 'package:CRUD/Models/model_Student.dart';
 
 // create  Singleton class
 class DbUtils {
