@@ -17,61 +17,84 @@ class _UpdateStudentState extends State<UpdateStudent> {
 
   _UpdateStudentState({required this.updatestudent});
 
-  late TextEditingController nameController;
-  late TextEditingController cityController;
-  late TextEditingController markController;
+  late TextEditingController UtitleController;
+  late TextEditingController UdisController;
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: this.updatestudent.name);
-    cityController = TextEditingController(text: this.updatestudent.city);
-    markController =
-        TextEditingController(text: this.updatestudent.mark.toString());
+    UtitleController = TextEditingController(text: this.updatestudent.title);
+    UdisController =
+        TextEditingController(text: this.updatestudent.discription);
+
+    print('update controller feom add data${this.UtitleController}');
+    print(' update controller from add data ${this.UdisController}');
   }
 
   @override
   Widget build(BuildContext context) {
+    print('update class near build ${UtitleController}');
+    print('update class  near build ${UdisController}');
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('Update Student Details '),
-          backgroundColor: Colors.blue,
+          title: Text(
+            'Update Your Details',
+            style: TextStyle(
+                color: const Color.fromARGB(255, 99, 67, 56),
+                fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Color.fromARGB(255, 241, 203, 131),
         ),
         body: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Update Student ${this.updatestudent.id}',
-                style: TextStyle(fontSize: 25),
+                'Update Details ${this.updatestudent.id}',
+                style: TextStyle(
+                    fontSize: 25, color: const Color.fromARGB(255, 99, 67, 56)),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: nameController,
+                controller: UtitleController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 99, 67, 56))),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
                 ),
+                cursorColor: Color.fromARGB(255, 99, 67, 56),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
-                controller: cityController,
+                controller: UdisController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 99, 67, 56))),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: markController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
+                cursorColor: Color.fromARGB(255, 99, 67, 56),
+                maxLines: 5,
               ),
             ),
             Row(
@@ -84,32 +107,34 @@ class _UpdateStudentState extends State<UpdateStudent> {
                   child: Text(
                     'Back',
                     style: TextStyle(
-                        color: const Color.fromARGB(255, 2, 139, 252)),
+                      color: const Color.fromARGB(255, 99, 67, 56),
+                    ),
                   ),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blue[50])),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 241, 203, 131))),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    final name = nameController.text;
-                    final city = cityController.text;
-                    final mark = int.tryParse(markController.text);
+                    final utitle = UtitleController.text;
+                    final udiscription = UdisController.text;
 
                     DbUtils dbUtils = await DbUtils.singlrTonClass();
 
-                    dbUtils.dataUpdate(context, updatestudent.id, name,
-                        int.parse(mark.toString()), city);
+                    dbUtils.dataUpdate(
+                        context, updatestudent.id, utitle, udiscription);
                     setState(() {});
                     Navigator.pop(context);
                   },
                   child: Text(
                     'Update',
-                    style: TextStyle(color: Color.fromARGB(255, 1, 140, 255)),
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 99, 67, 56),
+                    ),
                   ),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blue[50])),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 241, 203, 131))),
                 )
               ],
             )

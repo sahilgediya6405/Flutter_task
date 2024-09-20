@@ -9,84 +9,117 @@ class Add_Student extends StatefulWidget {
 }
 
 class _Add_StudentState extends State<Add_Student> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController cityController = TextEditingController();
-  TextEditingController markController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController disController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Student Details'),
-        backgroundColor: Colors.blue,
+        title: Text(
+          'Add Your Details',
+          style: TextStyle(
+              color: Color.fromARGB(255, 99, 67, 56),
+              fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Color.fromARGB(255, 241, 203, 131),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text('Student Name'),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: TextField(
-                controller: cityController,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: TextField(
+                controller: titleController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text('Student City'),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: TextField(
-              keyboardType: TextInputType.number,
-              controller: markController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text('Student Mark'),
+                  border: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 99, 67, 56))),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                  label: Text(
+                    'Title',
+                    style: TextStyle(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                ),
+                cursorColor: Color.fromARGB(255, 99, 67, 56),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Back",
-                  style:
-                      TextStyle(color: const Color.fromARGB(255, 4, 136, 243)),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: TextField(
+                controller: disController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 99, 67, 56))),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
+                  label: Text(
+                    'Discription',
+                    style: TextStyle(color: Color.fromARGB(255, 99, 67, 56)),
+                  ),
                 ),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.blue[50])),
+                maxLines: 5,
+                cursorColor: Color.fromARGB(255, 99, 67, 56),
               ),
-              ElevatedButton(
-                  onPressed: () async {
-                    DbUtils dbUtils = await DbUtils.singlrTonClass();
-                    dbUtils.addData(context, nameController.text,
-                        int.parse(markController.text), cityController.text);
-
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    "Save",
+                    "Back",
                     style: TextStyle(
-                        color: const Color.fromARGB(255, 6, 134, 240)),
+                      color: Color.fromARGB(255, 99, 67, 56),
+                    ),
                   ),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blue[50]))),
-            ],
-          )
-        ],
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 241, 203, 131))),
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      final Atitle = titleController.text;
+                      final Adiscription = disController.text;
+
+                      print(Atitle);
+                      print(Adiscription);
+
+                      DbUtils dbUtils = await DbUtils.singlrTonClass();
+                      dbUtils.addData(context, Atitle, Adiscription);
+
+                      Navigator.pop(context, true);
+                    },
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 99, 67, 56),
+                      ),
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Color.fromARGB(255, 241, 203, 131)))),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

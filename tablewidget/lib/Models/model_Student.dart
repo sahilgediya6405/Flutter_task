@@ -2,18 +2,17 @@
 
 class Student {
   int id;
-  String name;
-  int mark;
-  String city;
+  String title;
+  String discription;
 
-  Student(
-      {required this.id,
-      required this.name,
-      required this.city,
-      required this.mark});
+  Student({
+    required this.id,
+    required this.title,
+    required this.discription,
+  });
 
   factory Student.FromMap(Map<String, dynamic> map) {
     return Student(
-        id: map['id'], name: map['name'], city: map['city'], mark: map['mark']);
+        id: map["id"], title: map["title"], discription: map["discription"]);
   }
 }

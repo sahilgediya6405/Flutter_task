@@ -62,8 +62,16 @@ class _MainAppState extends State<MainApp> {
                   icon: Icon(Icons.supervised_user_circle_outlined))
             ]),
         body: Center(
-          child: GetCurentWidget(),
-        ),
+            child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: TextField(
+                  keyboardType: TextInputType.datetime,
+                  //controller: markController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text('Birth Of Date'),
+                  ),
+                ))),
       ),
     );
   }

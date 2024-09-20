@@ -20,26 +20,40 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  final apiUrl = "https://jsonplaceholder.typicode.com/albums/";
+  final apiUrl =
+      "https://jsonplaceholder.typicode.com/albums/"; // API URI Tack in 'apiUrl' varialble
   late List albumData;
 
   void initState() {
+    //Application is start. onetime initState is called.
     albumData = [];
     getdata();
   }
 
+  // Get Data From  Rest API
+
   void getdata() async {
-    final responce = await libhttp.get(Uri.parse(apiUrl));
+    final responce = await libhttp
+        .get(Uri.parse(apiUrl)); // Call API and Get Data From Server
 
     if (responce.statusCode == 200) {
-      List<dynamic> jsonArrey = json.decode(responce.body);
+      // Get Data where StatusCoade = 200
+      List<dynamic> jsonArrey = json.decode(
+          responce.body); // API Data tack 'jsonArrey' (List type) Variable
 
-      // json convert --> dart
+      // json convert --> dart (Using Model Class)
 
+      /* 
+        'jsonArrey' Stored Json object 
+         this function doing API data go to MOdel_album.dart file and create Dart Object
+          And Store in 'albumList' Variable.
+
+       */
       List<ModelAlbum> albumList = jsonArrey
           .map((jsonObject) => ModelAlbum.fomJsonObject(jsonObject))
           .toList();
 
+// Sate change and 'albumList' data is copyed 'albumData'
       setState(() {
         albumData = albumList;
       });

@@ -6,7 +6,6 @@ import 'package:tablewidget/Models/model_Student.dart';
 // create  Singleton class
 class DbUtils {
   static final DbUtils database = DbUtils._privatevariable();
-
   static Future<DbUtils> singlrTonClass() async {
     await initDb();
     return database;
@@ -21,9 +20,9 @@ class DbUtils {
     CurrentDB = await openDatabase("mydb.db", version: 1,
         onCreate: (Database db, int version) async {
       await db.execute(
-          "CREATE TABLE student(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, mark INTEGER, city TEXT)");
+          "CREATE TABLE student(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,discription TEXT)");
       await db.execute(
-          "INSERT INTO student(id, name, mark, city) VALUES(1, 'Rohit', 77, 'Surat'), (2, 'Sahil', 70, 'Ahemdabad'), (3, 'Rutu', 74, 'Mumbai')");
+          "INSERT INTO student(id,title,discription) VALUES(1, 'Rohit', 'Good IN Learning')");
     });
   }
 
@@ -50,17 +49,17 @@ class DbUtils {
 // Add Data
 
   Future<void> addData(
-      BuildContext context, String name, int mark, String city) async {
+      BuildContext context, String title, String discription) async {
     CurrentDB.transaction((txn) async {
-      await txn.rawQuery('INSERT INTO student(name, mark, city) VALUES(?,?,?)',
-          [name, mark, city]);
+      await txn.rawQuery('INSERT INTO student(title,discription) VALUES(?,?)',
+          [title, discription]);
     });
 
     Fluttertoast.showToast(
       msg: "Student Details Saved",
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Color.fromARGB(255, 241, 203, 131),
       gravity: ToastGravity.BOTTOM,
-      textColor: Colors.black,
+      textColor: const Color.fromARGB(255, 99, 67, 56),
     );
   }
 
@@ -71,17 +70,21 @@ class DbUtils {
 
     Fluttertoast.showToast(
       msg: "Student Details Deleted",
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Color.fromARGB(255, 241, 203, 131),
       gravity: ToastGravity.BOTTOM,
-      textColor: Colors.black,
+      textColor: const Color.fromARGB(255, 99, 67, 56),
     );
   }
 
   // Update Data
 
   Future<void> dataUpdate(
-      BuildContext context, int id, String name, int mark, String city) async {
-    Map<String, dynamic> newValues = {'name': name, 'city': city, 'mark': mark};
+      BuildContext context, int id, String title, String discription) async {
+    Map<String, dynamic> newValues = {
+      'id': id,
+      'title': title,
+      'discription': discription
+    };
 
     int result = await CurrentDB.update('student', newValues,
         where: 'id=?', whereArgs: [id]);
@@ -96,9 +99,9 @@ class DbUtils {
     } else {
       Fluttertoast.showToast(
         msg: "Student Details Updated",
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Color.fromARGB(255, 241, 203, 131),
         gravity: ToastGravity.BOTTOM,
-        textColor: Colors.black,
+        textColor: const Color.fromARGB(255, 99, 67, 56),
       );
     }
   }
