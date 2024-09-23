@@ -1,15 +1,32 @@
 import 'dart:convert';
 import 'package:api1/Model_albun.dart';
+import 'package:api1/Screen1.dart';
 import 'package:api1/Screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as libhttp;
 
 void main() {
   runApp(MaterialApp(
-    home: Scaffold(
-      body: MyWidget(),
-    ),
+    home: MyApp(),
   ));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Screen1()));
+        },
+        child: Icon(Icons.add),
+      ),
+      body: MyWidget(),
+    );
+  }
 }
 
 class MyWidget extends StatefulWidget {
@@ -21,7 +38,7 @@ class MyWidget extends StatefulWidget {
 
 class _MyWidgetState extends State<MyWidget> {
   final apiUrl =
-      "https://jsonplaceholder.typicode.com/albums/"; // API URI Tack in 'apiUrl' varialble
+      "http://localhost:8000/albums/"; // API URI Tack in 'apiUrl' varialble
   late List albumData;
 
   void initState() {
@@ -32,7 +49,7 @@ class _MyWidgetState extends State<MyWidget> {
 
   // Get Data From  Rest API
 
-  void getdata() async {
+  Future<void> getdata() async {
     final responce = await libhttp
         .get(Uri.parse(apiUrl)); // Call API and Get Data From Server
 
@@ -73,29 +90,32 @@ class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
     return albumData.length > 0
-        ? ListView.builder(
-            itemCount: albumData.length,
-            itemBuilder: (context, index) {
-              ModelAlbum album = albumData[index];
-              return ListTile(
-                  title: Text(album.title),
-                  subtitle: Text('UserID : ${album.userId}'),
-                  trailing: IconButton(
-                      onPressed: () {
-                        deleteData(album.id);
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      )),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) =>
-                                Screen2(album: albumData[index])));
-                  });
-            })
+        ? RefreshIndicator(
+            child: ListView.builder(
+                itemCount: albumData.length,
+                itemBuilder: (context, index) {
+                  ModelAlbum album = albumData[index];
+                  return ListTile(
+                      title: Text(album.title),
+                      subtitle: Text('UserID : ${album.userId}'),
+                      trailing: IconButton(
+                          onPressed: () {
+                            deleteData(album.id);
+                          },
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) =>
+                                    Screen2(album: albumData[index])));
+                      });
+                }),
+            onRefresh: getdata,
+          )
         : Center(child: CircularProgressIndicator());
   }
 }
