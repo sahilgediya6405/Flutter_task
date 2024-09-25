@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:api1/Model_albun.dart';
 import 'package:api1/Screen1.dart';
+import 'package:api1/EditAlbum.dart';
 import 'package:api1/Screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as libhttp;
@@ -38,7 +39,7 @@ class MyWidget extends StatefulWidget {
 
 class _MyWidgetState extends State<MyWidget> {
   final apiUrl =
-      "http://localhost:8000/albums/"; // API URI Tack in 'apiUrl' varialble
+      "http://localhost:8000/album/"; // API URI Tack in 'apiUrl' varialble
   late List albumData;
 
   void initState() {
@@ -98,6 +99,17 @@ class _MyWidgetState extends State<MyWidget> {
                   return ListTile(
                       title: Text(album.title),
                       subtitle: Text('UserID : ${album.userId}'),
+                      leading: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Editalbum(
+                                        modelAlbum: album,
+                                      )));
+                        },
+                      ),
                       trailing: IconButton(
                           onPressed: () {
                             deleteData(album.id);

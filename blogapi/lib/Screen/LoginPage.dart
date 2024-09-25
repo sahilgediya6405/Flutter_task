@@ -1,6 +1,7 @@
 import 'package:blogapi/Screen/Homepage.dart';
 import 'package:blogapi/Screen/Signin.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
@@ -112,6 +113,7 @@ class _LoginState extends State<Login> {
                     hintStyle:
                         TextStyle(color: Color.fromARGB(255, 151, 186, 214))),
                 cursorColor: Color.fromARGB(255, 2, 76, 136),
+                obscureText: true,
               ),
             ),
             Padding(
