@@ -23,6 +23,23 @@ class _Url_LuuncherState extends State<Url_Luuncher> {
     await launchUrl(launcher);
   }
 
+  void smsSend() async {
+    final Uri launcher = Uri(scheme: 'sms', path: '+91 9898677276');
+    await launchUrl(launcher);
+  }
+
+  void fileSend() async {
+    final Uri launcher = Uri(
+        scheme: 'file', path: 'C:/Users/online/OneDrive/Pictures/Screenshots');
+    await launchUrl(launcher);
+  }
+
+  void mailSend() async {
+    final Uri launcher =
+        Uri(scheme: 'mailto', path: 'sahilgediya2005@gmail.com');
+    await launchUrl(launcher);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,6 +50,9 @@ class _Url_LuuncherState extends State<Url_Luuncher> {
         children: [
           TextButton(onPressed: dielPed, child: Text('+91 8469621125')),
           TextButton(onPressed: webApp, child: Text('Facebook.com')),
+          TextButton(onPressed: smsSend, child: Text('SMS')),
+          TextButton(onPressed: fileSend, child: Text('File')),
+          TextButton(onPressed: mailSend, child: Text('Emial')),
         ],
       )),
     ));
