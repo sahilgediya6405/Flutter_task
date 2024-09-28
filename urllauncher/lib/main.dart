@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const Url_Luuncher());
@@ -13,6 +16,30 @@ class Url_Luuncher extends StatefulWidget {
 }
 
 class _Url_LuuncherState extends State<Url_Luuncher> {
+  File? image;
+
+  void selectGelery() async {
+    final picker = ImagePicker();
+    final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (PickedFile != null) {
+      setState(() {
+        image = File(PickedFile.path);
+      });
+    }
+  }
+
+  void openCemera() async {
+    final picker = ImagePicker();
+    final pickerFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (pickerFile != null) {
+      setState(() {
+        image = File(pickerFile.path);
+      });
+    }
+  }
+
   void dielPed() async {
     final Uri launcher = Uri(scheme: 'tel', path: '+91 8469621125');
     await launchUrl(launcher);
@@ -53,6 +80,17 @@ class _Url_LuuncherState extends State<Url_Luuncher> {
           TextButton(onPressed: smsSend, child: Text('SMS')),
           TextButton(onPressed: fileSend, child: Text('File')),
           TextButton(onPressed: mailSend, child: Text('Emial')),
+          ElevatedButton(
+              onPressed: selectGelery, child: Text("Select From Gelery")),
+          ElevatedButton(onPressed: openCemera, child: Text("Open Cemera")),
+          image == null
+              ? Text("No image Selected")
+              : Image.file(
+                  image!,
+                  height: 200,
+                  width: 200,
+                  fit: BoxFit.cover,
+                )
         ],
       )),
     ));
