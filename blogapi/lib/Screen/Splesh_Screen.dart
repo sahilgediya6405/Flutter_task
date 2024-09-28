@@ -44,8 +44,8 @@ class Speshscreen extends StatelessWidget {
       gifHeight: 150,
       gifWidth: 150,
       nextScreen: Login(),
-      backgroundColor: Colors.white,
-      duration: Duration(seconds: 15),
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+      duration: Duration(seconds: 5),
     );
 
 //Scale splashScreen

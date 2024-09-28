@@ -79,11 +79,10 @@ class _ViewblogState extends State<Viewblog> {
                         fontWeight: FontWeight.bold,
                         fontSize: 20))),
             ImageNetwork(image: sendBlog.image, height: 250, width: 300),
-            Expanded(
-                child: Padding(
+            Padding(
               padding: const EdgeInsets.all(8),
               child: Text(sendBlog.content),
-            )),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Row(

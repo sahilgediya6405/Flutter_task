@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Bloginfo {
   final String title;
   final String content;
@@ -34,4 +36,6 @@ class Bloginfo {
         image: imageUrl,
         hit: json['hit'] ?? 0);
   }
+
+  where(Function(dynamic post) param0) {}
 }

@@ -1,14 +1,18 @@
 import 'dart:convert';
-
 import 'package:blogapi/Model/bloginfo.dart';
+import 'package:blogapi/Screen/SearchBlog.dart';
 import 'package:blogapi/Screen/ViewBlog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as Https;
+import 'package:http/http.dart' as http; // Make sure this is imported
 import 'package:image_network/image_network.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key, required List<Bloginfo> blogdata});
+  const Homepage(
+      {super.key,
+      required this.blogdata}); // Ensure this parameter is used correctly
+
+  final List<Bloginfo> blogdata; // Declare the blogdata parameter
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -17,43 +21,44 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final apiUri = 'https://api.fake-rest.refine.dev/posts/';
 
-  late List blocgData = [];
+  late List<Bloginfo> blogData; // Define blogData as List<Bloginfo>
   late bool isLoaded;
-  late bool haseError;
+  late bool hasError;
 
   @override
   void initState() {
     super.initState();
     isLoaded = false;
-    haseError = false;
-    blocgData = [];
-    getdata();
+    hasError = false;
+    blogData = []; // Initialize as an empty List<Bloginfo>
+    getData();
   }
 
-  void getdata() async {
+  Future<void> getData() async {
     try {
       setState(() {
         isLoaded = true;
-        haseError = false;
+        hasError = false;
       });
-      final responce = await Https.get(Uri.parse(apiUri));
+      final response = await http.get(Uri.parse(apiUri));
 
-      if (responce.statusCode == 200) {
-        List<dynamic> jsonArrey = json.decode(responce.body);
-        List<Bloginfo> BlogList = jsonArrey
-            .map((jsonObject) => Bloginfo.fromjson(jsonObject))
+      if (response.statusCode == 200) {
+        List<dynamic> jsonArray = json.decode(response.body);
+        List<Bloginfo> blogList = jsonArray
+            .map((jsonObject) =>
+                Bloginfo.fromjson(jsonObject)) // Ensure fromJson is defined
             .toList();
         setState(() {
-          haseError = false;
-          blocgData = BlogList;
+          hasError = false;
+          blogData = blogList; // Assign fetched data
         });
       } else {
-        throw Error.safeToString('SattusCoad is not 200');
+        throw Exception('Status Code is not 200');
       }
     } catch (e) {
       print(e.toString());
       setState(() {
-        haseError = true;
+        hasError = true;
       });
     } finally {
       setState(() {
@@ -64,204 +69,217 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoaded == true) {
-      return Center(
-        child: Image.asset('assets/Loading.gif'),
-      );
-    } else {
-      if (haseError) {
-        return Scaffold(body: Text("Fail to load data"));
-      } else {
-        return Scaffold(
-            appBar: AppBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: CircleAvatar(
-                      child: Icon(
-                        Icons.person,
-                        color: Color.fromARGB(255, 2, 76, 136),
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'My Blog',
-                    style: GoogleFonts.dancingScript(
-                        fontSize: 40,
-                        textStyle:
-                            TextStyle(color: Color.fromARGB(255, 2, 76, 136))),
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.search,
-                        color: Color.fromARGB(255, 2, 76, 136),
-                      ))
-                ],
-              ),
-              backgroundColor: Colors.blue[50],
+    if (isLoaded) {
+      return Scaffold(
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: BoxDecoration(color: Colors.blue[50]),
+          child: Center(
+            child: Image.asset(
+              'assets/Loading.gif',
             ),
-            body: ListView.builder(
-                itemCount: blocgData.length,
-                itemBuilder: (context, index) {
-                  Bloginfo BlogListMAp = blocgData[index];
-                  // final firstLetter = BlogListMAp.title[0].toUpperCase;
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Viewblog(sendBlog: BlogListMAp)));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(color: Colors.blue[50]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+        ),
+      );
+    } else if (hasError) {
+      return Scaffold(body: Center(child: Text("Failed to load data")));
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                child: Icon(
+                  Icons.person,
+                  color: Color.fromARGB(255, 2, 76, 136),
+                ),
+                backgroundColor: Colors.white,
+              ),
+              Text(
+                'My Blog',
+                style: GoogleFonts.dancingScript(
+                  fontSize: 40,
+                  textStyle: TextStyle(color: Color.fromARGB(255, 2, 76, 136)),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SearchBlog(sBlog: blogData)));
+                },
+                icon: Icon(
+                  Icons.search,
+                  color: Color.fromARGB(255, 2, 76, 136),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.blue[50],
+        ),
+        body: RefreshIndicator(
+          onRefresh: getData,
+          color: Color.fromARGB(255, 2, 76, 136),
+          backgroundColor: Colors.blue[50],
+          child: ListView.builder(
+            itemCount: blogData.length,
+            itemBuilder: (context, index) {
+              Bloginfo blogListMap = blogData[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Viewblog(sendBlog: blogListMap),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Colors.blue[50]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: CircleAvatar(
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Color.fromARGB(255, 2, 76, 136),
-                                  ),
-                                  backgroundColor: Colors.white,
-                                ),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: CircleAvatar(
+                              child: Icon(
+                                Icons.person,
+                                color: Color.fromARGB(255, 2, 76, 136),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "User_name",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15,
-                                              color: Color.fromARGB(
-                                                  255, 2, 76, 136)),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 50),
-                                          child: TextButton(
-                                              onPressed: () {},
-                                              child: Text('Follow')),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      BlogListMAp.slug,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color:
-                                              Color.fromARGB(255, 2, 76, 136)),
-                                    ),
-                                    Text(
-                                      BlogListMAp.createdAt,
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 2, 76, 136),
-                                          fontSize: 10),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                              backgroundColor: Colors.white,
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
-                            child: Text(
-                              BlogListMAp.title,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 2, 76, 136)),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: ImageNetwork(
-                                image: BlogListMAp.image,
-                                height: 250,
-                                width: 300),
-                          ),
-                          Divider(
-                            height: 2,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10, top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.thumb_up_alt_outlined,
-                                      color: Color.fromARGB(255, 2, 76, 136),
+                                    Text(
+                                      "User_name",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Color.fromARGB(255, 2, 76, 136),
+                                      ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: Text(
-                                        'Like',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 2, 76, 136)),
+                                      padding: const EdgeInsets.only(right: 50),
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text('Follow'),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.comment,
-                                      color: Color.fromARGB(255, 2, 76, 136),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: Text(
-                                        'Comment',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 2, 76, 136)),
-                                      ),
-                                    )
-                                  ],
+                                Text(
+                                  blogListMap.slug,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color.fromARGB(255, 2, 76, 136),
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.share,
-                                      color: Color.fromARGB(255, 2, 76, 136),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8),
-                                      child: Text(
-                                        'Share',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 2, 76, 136)),
-                                      ),
-                                    )
-                                  ],
-                                )
+                                Text(
+                                  blogListMap.createdAt,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 2, 76, 136),
+                                    fontSize: 10,
+                                  ),
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
-                    ),
-                  );
-                }));
-      }
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          blogListMap.title,
+                          style:
+                              TextStyle(color: Color.fromARGB(255, 2, 76, 136)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10, left: 10),
+                        child: ImageNetwork(
+                          image: blogListMap.image,
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                        ),
+                      ),
+                      Divider(height: 2),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.thumb_up_alt_outlined,
+                                  color: Color.fromARGB(255, 2, 76, 136),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    'Like',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 2, 76, 136)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.comment,
+                                  color: Color.fromARGB(255, 2, 76, 136),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    'Comment',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 2, 76, 136)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.share,
+                                  color: Color.fromARGB(255, 2, 76, 136),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    'Share',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 2, 76, 136)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
     }
   }
 }

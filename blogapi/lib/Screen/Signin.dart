@@ -50,7 +50,7 @@ class _SigninState extends State<Signin> {
           Image.asset(
             'assets/Screen1Logo.gif',
             height: screenHeight * 0.3,
-            width: screenWidth * 0.3,
+            width: screenWidth * 0.5,
           ),
           Padding(
             padding:
@@ -86,6 +86,7 @@ class _SigninState extends State<Signin> {
             padding:
                 const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
             child: TextField(
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide:
@@ -138,18 +139,29 @@ class _SigninState extends State<Signin> {
                     color: Color.fromARGB(255, 151, 186, 214),
                   ),
                   suffixIcon: Icon(
-                    Icons.visibility,
+                    Icons.visibility_off,
                     color: Color.fromARGB(255, 151, 186, 214),
                   ),
                   hintStyle:
                       TextStyle(color: Color.fromARGB(255, 151, 186, 214))),
+              obscureText: true,
               cursorColor: Color.fromARGB(255, 2, 76, 136),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Login()));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "SignUp Successful...please Login",
+                    style: TextStyle(color: Color.fromARGB(255, 3, 64, 114)),
+                  ),
+                  backgroundColor: Colors.blue[50],
+                ));
+              },
               child: Text(
                 'SignUp',
                 style: TextStyle(color: Color.fromARGB(255, 3, 64, 114)),
