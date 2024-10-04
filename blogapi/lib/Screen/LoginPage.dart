@@ -1,9 +1,9 @@
-import 'package:blogapi/Model/bloginfo.dart';
+import 'dart:convert';
 import 'package:blogapi/Screen/Homepage.dart';
 import 'package:blogapi/Screen/Signin.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as https;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,6 +13,46 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  String? token;
+  Future<void> loginApp() async {
+    try {
+      var responce =
+          await https.post(Uri.parse('https://dummyjson.com/auth/login'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode({
+                'username': userNameController.text,
+                'password': passwordController.text,
+                'expiresInMins': 1,
+              }));
+      if (responce.statusCode == 200) {
+        var responceData = jsonDecode(responce.body);
+
+        setState(() {
+          token = responceData['token'];
+        });
+
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Signup Sucessfully!")));
+
+        print("Token: ${token}");
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Homepage(
+                      blogdata: [],
+                    )));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Pls velid username and password")));
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -57,6 +97,7 @@ class _LoginState extends State<Login> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                controller: userNameController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -87,6 +128,7 @@ class _LoginState extends State<Login> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderSide:
@@ -121,14 +163,7 @@ class _LoginState extends State<Login> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Homepage(
-                                blogdata: [],
-                              )));
-                },
+                onPressed: loginApp,
                 child: Text(
                   'Login',
                   style: TextStyle(color: Color.fromARGB(255, 3, 64, 114)),

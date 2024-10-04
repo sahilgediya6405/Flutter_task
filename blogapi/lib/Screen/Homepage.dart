@@ -4,7 +4,7 @@ import 'package:blogapi/Screen/SearchBlog.dart';
 import 'package:blogapi/Screen/ViewBlog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http; // Make sure this is imported
+import 'package:http/http.dart' as http;
 import 'package:image_network/image_network.dart';
 
 class Homepage extends StatefulWidget {

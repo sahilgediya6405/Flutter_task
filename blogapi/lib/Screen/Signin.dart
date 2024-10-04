@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:blogapi/Screen/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 // import 'package:image_network/image_network.dart';
 
 class Signin extends StatefulWidget {
@@ -11,6 +14,9 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -56,6 +62,7 @@ class _SigninState extends State<Signin> {
             padding:
                 const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
             child: TextField(
+              controller: userNameController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide:
@@ -86,6 +93,7 @@ class _SigninState extends State<Signin> {
             padding:
                 const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
             child: TextField(
+              controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -117,6 +125,7 @@ class _SigninState extends State<Signin> {
             padding:
                 const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
             child: TextField(
+              controller: passwordController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide:
@@ -151,17 +160,7 @@ class _SigninState extends State<Signin> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Login()));
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    "SignUp Successful...please Login",
-                    style: TextStyle(color: Color.fromARGB(255, 3, 64, 114)),
-                  ),
-                  backgroundColor: Colors.blue[50],
-                ));
-              },
+              onPressed: () {},
               child: Text(
                 'SignUp',
                 style: TextStyle(color: Color.fromARGB(255, 3, 64, 114)),

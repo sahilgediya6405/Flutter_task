@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517657616007",
+    "project_id": "flutterfirst-8683c",
+    "storage_bucket": "flutterfirst-8683c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517657616007:android:ce928fd3614d5c88df6222",
+        "android_client_info": {
+          "package_name": "tcom.tops.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE9lhpUHs8uv6Nb7VSFhrqx-AH9viJ7GA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
