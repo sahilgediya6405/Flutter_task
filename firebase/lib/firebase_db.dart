@@ -14,7 +14,7 @@ class FirebaseDb {
       await databaseReference.child(key).set(e.toMap());
     }
 
-    databaseReference.push().set(e.toMap());
+    //databaseReference.push().set(e.toMap());
   }
 
   Stream<DatabaseEvent> getAllVAlue() {
