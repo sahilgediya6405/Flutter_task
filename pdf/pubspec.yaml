@@ -1,0 +1,27 @@
+name: my_pdf_project
+description: A sample project using the pdf package.
+version: 1.0.0
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  another_flutter_splash_screen: ^1.2.1
+  pdf: ^3.11.1
+  image_picker: ^1.1.2
+  path_provider: ^2.1.4
+  dotted_border: ^2.1.0
+  another_flushbar: ^1.12.30
+  open_file: ^3.5.7
+  permission_handler: ^10.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+
+flutter:
+  uses-material-design: true
